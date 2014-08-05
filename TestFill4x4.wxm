@@ -23,6 +23,7 @@ LargeMComb: addrow(B1B2, row(B3B4,1), row(B3B4,2));
 /* [wxMaxima: input   start ] */
 AllPossValues: [1, 2, 3, 4]$
 Possibles: AllPossValues;
+Backtrack: false;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -31,6 +32,8 @@ SolutionGen:(
         for j from 1 thru 2 do (
             for k from 1 thru 2 do (
                 for l from 1 thru 2 do (
+                block(
+                    Start,
                     Possibles: AllPossValues,
                     Temp: row(LargeMComb, ((i^2)-i+k)),
                     Temp: Temp[1],
@@ -52,9 +55,18 @@ TempBox: Temp,
                     NotPossibles: sort(NotPossibles),
                     NotPossibles: unique(NotPossibles),
 TempPoss: Possibles,
+                    if ((length(NotPossibles))=4) then (
+                        Backtrack:true,
+                        j:1,
+                        k:1,
+                        l:1,
+                        go(Start)
+                    )
+                    else (
                     for m from 1 thru length(NotPossibles) do (
-                        Possibles: delete(NotPossibles[m], Possibles)),
-                    
+                            Possibles: delete(NotPossibles[m], Possibles))
+                    )
+                    ),
                     RandomValue: Possibles[1+random(length(Possibles))],
                     LM[i,j][k,l]: RandomValue,
                     B1B2: addcol(LM[1,1],[LM[1,2][1,1], LM[1,2][2,1]], [LM[1,2][1,2], LM[1,2][2,2]]),
@@ -83,6 +95,7 @@ LargeM;
 B1B2;
 B3B4;
 LargeMComb;
+Backtrack;
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
