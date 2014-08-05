@@ -1,0 +1,128 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+Size:16;
+SqrtSize: sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Count:0$
+GridGen: (for i from 1 thru SqrtSize do (
+    for j from 1 thru SqrtSize do (
+        Count: Count + 1, 
+        LM[i,j]: genmatrix(concat(B,Count), SqrtSize, SqrtSize))
+    )
+)$
+LargeM: genmatrix(LM, SqrtSize, SqrtSize)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+GenLargeMComb:(
+for i from 1 thru 4 do(
+BandGen:(Band: LM[i,1],
+for j from 2 thru 4 do (
+for k from 1 thru 4 do (
+TempCol: col(LM[i,j],k),
+Band: addcol(Band, TempCol)
+))),
+if i=1 then (
+LargeMComb:Band
+)
+else (
+for i from 1 thru 4 do (
+TempRow: row(Band, i),
+LargeMComb:addrow(LargeMComb, TempRow)
+)))
+);
+LargeMComb$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AllPossValues: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]$
+Possibles: AllPossValues$
+Backtrack: false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+SolutionGen:(
+    for i from 1 thru 4 do (
+        for j from 1 thru 4 do (
+            for k from 1 thru 4 do (
+                for l from 1 thru 4 do (
+block(
+                    Possibles: AllPossValues,
+                    Temp: row(LargeMComb, (4*(i-1)+k)),
+                    Temp: Temp[1],
+                    NotPossRow: rest(Temp,-(16-(4*(j-1))-l+1)),
+
+                    Temp: col(LargeMComb, (4*(j-1)+l)),
+                    Temp: transpose(Temp),
+                    Temp: Temp[1],
+                    NotPossCol: rest(Temp,-(16-(4*(i-1))-k+1)),
+                    
+                    Temp: row(LM[i,j],1),
+                    for m from 2 thru 4 do(
+                    TempRow: row(LM[i,j],m),
+                    Temp: addcol(Temp, TempRow)),
+                    TempRow: Temp[1],
+                    NotPossBox: rest(TempRow, -(16-(4*(k-1))-l+1)),
+
+                    NotPossRowCol: append(NotPossRow, NotPossCol),
+                    NotPossibles: append(NotPossRowCol, NotPossBox),
+                    NotPossibles: sort(NotPossibles),
+                    NotPossibles: unique(NotPossibles),
+
+                    if ((length(NotPossibles))=16) then (
+                        Backtrack:true,
+                        break
+                    )
+                    else (
+                    for m from 1 thru length(NotPossibles) do (
+                            Possibles: delete(NotPossibles[m], Possibles)),
+                    
+
+                    RandomValue: Possibles[1+random(length(Possibles))],
+                    LM[i,j][k,l]: RandomValue
+                    ),                    
+
+                    GemLargeMComb:(
+                        for i from 1 thru 4 do(
+                            BandGen:(Band: LM[i,1],
+                            for j from 2 thru 4 do (
+                                for k from 1 thru 4 do (
+                                    TempCol: col(LM[i,j],k),
+                                    Band: addcol(Band, TempCol)
+                            ))),
+                            if i=1 then (
+                            LargeMComb:Band
+                            )
+                            else (
+                                for i from 1 thru 4 do (
+                                    TempRow: row(Band, i),
+                                    LargeMComb:addrow(LargeMComb, TempRow)
+                        )))
+                    )
+
+                )
+            )
+        ))
+    )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NotPossRow;
+NotPossCol;
+NotPossBox;
+length(NotPossibles);
+Possibles;
+Backtrack;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LargeM;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

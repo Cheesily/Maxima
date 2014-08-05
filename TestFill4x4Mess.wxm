@@ -1,0 +1,105 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+Mess;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LM[1,1]: genmatrix(B1, 2, 2);
+LM[1,2]: genmatrix(B2, 2, 2);
+LM[2,1]: genmatrix(B3, 2, 2);
+LM[2,2]: genmatrix(B4, 2, 2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LargeM: genmatrix(LM, 2, 2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B1B2: addcol(LM[1,1],[LM[1,2][1,1], LM[1,2][2,1]], [LM[1,2][1,2], LM[1,2][2,2]]);
+B3B4: addcol(LM[2,1],[LM[2,2][1,1], LM[2,2][2,1]], [LM[2,2][1,2], LM[2,2][2,2]]);
+LargeMComb: addrow(B1B2, row(B3B4,1), row(B3B4,2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AllPossValues: [1, 2, 3, 4];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Possibles: AllPossValues;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Cell:[2,2];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Temp: row(LargeMComb, Cell[1]);
+Temp: Temp[1];
+NotPossRow: rest(Temp,-(4-Cell[2]+1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Temp: col(LargeMComb, Cell[2]);
+Temp: transpose(Temp);
+Temp: Temp[1];
+NotPossCol: rest(Temp,-(4-Cell[1]+1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Temp: row(LM[1,1], 1);
+Temp2: row(LM[1,1], 2);
+Temp: addcol(Temp, Temp2);
+Temp: Temp[1];
+NotPossBox: rest(Temp, -(5-((Cell[1])^2-Cell[1]+Cell[2])));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NotPossRowCol: append(NotPossRow, NotPossCol);
+NotPossibles: append(NotPossRowCol, NotPossBox);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NotPossibles: sort(NotPossibles);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NotPossibles: unique(NotPossibles);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+length(NotPossibles);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i from 1 thru length(NotPossibles) do (
+    Possibles: delete(NotPossibles[i], Possibles)
+) 
+;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Possibles;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+RandomValue: Possibles[1+random(length(Possibles))];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LM[1,1][Cell[1],Cell[2]]: RandomValue;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LargeM;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B1B2: addcol(LM[1,1],[B2[1,1], B2[2,1]], [B2[1,2], B2[2,2]])$
+B3B4: addcol(LM[2,1],[B4[1,1], B4[2,1]], [B4[1,2], B4[2,2]])$
+LargeMComb: addrow(B1B2, [B3[1,1], B3[1,2], B4[1,1], B4[1,2]], [B3[2,1], B3[2,2], B4[2,1], B4[2,2]]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

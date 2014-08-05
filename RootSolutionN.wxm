@@ -1,0 +1,78 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+RootSolution;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Size:9;
+SqrtSize: sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Count:0$
+GridGen: (for i from 1 thru SqrtSize do (
+    for j from 1 thru SqrtSize do (
+        Count: Count + 1, 
+        LM[i,j]: genmatrix(concat(B,Count), SqrtSize, SqrtSize))
+    )
+)$
+LargeM: genmatrix(LM, SqrtSize, SqrtSize);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+GemLargeMComb:(
+for i from 1 thru SqrtSize do(
+BandGen:(Band: LM[i,1],
+for j from 2 thru SqrtSize do (
+for k from 1 thru SqrtSize do (
+TempCol: col(LM[i,j],k),
+Band: addcol(Band, TempCol)
+))),
+if i=1 then (
+LargeMComb:Band
+)
+else (
+for i from 1 thru SqrtSize do (
+TempRow: row(Band, i),
+LargeMComb:addrow(LargeMComb, TempRow)
+)))
+);
+LargeMComb;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+SolutionGen: (
+for i from 1 thru Size do (
+for j from 1 thru Size do (
+Value:((i-1)*SqrtSize + quotient(i-1,SqrtSize) + j - 1),
+Value: mod(Value,Size)+1,
+LargeMComb[i,j]: Value
+)
+)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LargeMComb;
+LargeM;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Convert:(
+for i from 1 thru SqrtSize do(
+for j from 1 thru SqrtSize do(
+for k from 1 thru SqrtSize do(
+for l from 1 thru SqrtSize do(
+LargeM[i,j][k,l]: LargeMComb[SqrtSize*(i-1)+k, SqrtSize*(j-1)+l]
+)))));
+LargeM;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LargeM;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
