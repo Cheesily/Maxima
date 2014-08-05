@@ -1,0 +1,54 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+PermutationToSwapRows;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Size:4;
+SqrtSize:sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TempCol:0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
+TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
+[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix:TestMatrix1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a:1$
+b:1$
+c:2$
+TempCol: genmatrix(TC,1,Size);
+
+for i from 1 thru Size do (
+    TempCol[1,i]:TestMatrix[SqrtSize*(a-1)+b,i]
+);
+TempCol;
+
+for i from 1 thru Size do (
+    TestMatrix[SqrtSize*(a-1)+b,i]:TestMatrix[SqrtSize*(a-1)+c,i]
+);
+TestMatrix;
+
+for i from 1 thru Size do (
+    TestMatrix[SqrtSize*(a-1)+c,i]:TempCol[1,i]
+);
+TestMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

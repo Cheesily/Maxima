@@ -1,0 +1,57 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+Permutations;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Size:9;
+SqrtSize:sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TempBand:0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3]);
+TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
+[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix:TestMatrix2$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+SwapBands;
+a:1$
+b:2$
+TempBand: genmatrix(TB,SqrtSize,Size);
+
+for i from 1 thru SqrtSize do (
+    for j from 1 thru Size do (
+        TempBand[SqrtSize*(a-1)+i,j]:TestMatrix[i,j]
+));
+TempBand;
+
+for i from 1 thru SqrtSize do (
+    for j from 1 thru Size do (
+        TestMatrix[SqrtSize*(a-1)+i,j]:TestMatrix[SqrtSize*(b-1)+i,j]
+));
+TestMatrix;
+
+for i from 1 thru 2 do (
+    for j from 1 thru 4 do (
+        TestMatrix[n*(b-1)+i,j]:TempBand[i,j]
+));
+TestMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

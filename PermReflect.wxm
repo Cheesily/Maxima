@@ -1,0 +1,87 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+PermutationToReflect;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Size:4;
+SqrtSize:sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TempCol:0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
+TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
+[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix:TestMatrix1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a:4$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if a=1 then (
+    NewMatrix:col(TestMatrix,Size),
+    for i from 2 thru Size do (
+        TempCol:col(TestMatrix,(Size+1-i)),
+        NewMatrix:addcol(NewMatrix,TempCol)
+    )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if a=2 then (
+    NewMatrix:row(TestMatrix,Size),
+    for i from 2 thru Size do (
+        TempRow:row(TestMatrix,(Size+1-i)),
+        NewMatrix:addrow(NewMatrix,TempRow)
+    )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if a=3 then (
+    NewMatrix:transpose(TestMatrix)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if a=4 then (
+    TempMatrix:col(TestMatrix,Size),
+    for i from 2 thru Size do (
+        TempCol:col(TestMatrix,(Size+1-i)),
+        TempMatrix:addcol(TempMatrix,TempCol)
+    ),
+    
+    TempMatrix2:row(TempMatrix,Size),
+    for i from 2 thru Size do (
+        TempRow:row(TempMatrix,(Size+1-i)),
+        TempMatrix2:addrow(TempMatrix2,TempRow)
+    ),
+
+    NewMatrix:transpose(TempMatrix2)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TempCol;
+TempMatrix;
+TempMatrix2;
+NewMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
