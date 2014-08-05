@@ -15,10 +15,6 @@ SqrtSize:sqrt(Size);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-TempCol:0;
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
 TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
 TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
 [8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8])$
@@ -33,14 +29,16 @@ a:1$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-NewMatrix:transpose(row(TestMatrix,Size));
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-for i from 1 thru (Size-1) do (
-        TempCol:transpose(row(TestMatrix,Size-i)),
+OldMatrix:copymatrix(TestMatrix);
+for i from 1 thru a do (
+if i>1 then (
+OldMatrix:copymatrix(NewMatrix)
+),
+NewMatrix:transpose(row(OldMatrix,Size)),
+for j from 1 thru (Size-1) do (
+        TempCol:transpose(row(OldMatrix,Size-j)),
         NewMatrix:addcol(NewMatrix,TempCol)
-);
+));
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
