@@ -1,0 +1,190 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+AllPermutations;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Size:4;
+SqrtSize:sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3]);
+TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
+[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+InputMatrix:TestMatrix1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if x=1 then (
+SwapBands,
+a:1,
+b:2,
+TempBand: genmatrix(TB,SqrtSize,Size),
+for i from 1 thru SqrtSize do (
+    for j from 1 thru Size do (
+        TempBand[i,j]:InputMatrix[SqrtSize*(a-1)+i,j]
+)),
+
+for i from 1 thru SqrtSize do (
+    for j from 1 thru Size do (
+        InputMatrix[SqrtSize*(a-1)+i,j]:InputMatrix[SqrtSize*(b-1)+i,j]
+)),
+
+for i from 1 thru SqrtSize do (
+    for j from 1 thru Size do (
+        InputMatrix[SqrtSize*(b-1)+i,j]:TempBand[i,j]
+)),
+OutputMatrix:InputMatrix
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if x=2 then (
+SwapStacks,
+a:1,
+b:2,
+TempStack: genmatrix(TS,Size,SqrtSize),
+for i from 1 thru Size do (
+    for j from 1 thru SqrtSize do (
+        TempStack[i,j]:InputMatrix[i,SqrtSize*(a-1)+j]
+)),
+
+for i from 1 thru Size do (
+    for j from 1 thru SqrtSize do (
+        InputMatrix[i,SqrtSize*(a-1)+j]:InputMatrix[i,SqrtSize*(b-1)+j]
+)),
+
+for i from 1 thru Size do (
+    for j from 1 thru SqrtSize do (
+        InputMatrix[i,SqrtSize*(b-1)+j]:TempStack[i,j]
+)),
+OutputMatrix:InputMatrix
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if x=3 then (
+SwapRows,
+a:1,
+b:1,
+c:2,
+TempCol: genmatrix(TC,1,Size),
+
+for i from 1 thru Size do (
+    TempCol[1,i]:TestMatrix[SqrtSize*(a-1)+b,i]
+),
+
+for i from 1 thru Size do (
+    TestMatrix[SqrtSize*(a-1)+b,i]:TestMatrix[SqrtSize*(a-1)+c,i]
+),
+
+for i from 1 thru Size do (
+    TestMatrix[SqrtSize*(a-1)+c,i]:TempCol[1,i]
+)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if x=4 then (
+SwapColumns,
+a:1,
+b:1,
+c:2,
+TempCol: genmatrix(TC,Size,1),
+for i from 1 thru Size do (
+    TempCol[i,1]:TestMatrix[i,SqrtSize*(a-1)+b]
+),
+
+for i from 1 thru Size do (
+    TestMatrix[i,SqrtSize*(a-1)+b]:TestMatrix[i,SqrtSize*(a-1)+c]
+),
+
+for i from 1 thru Size do (
+    TestMatrix[i,SqrtSize*(a-1)+c]:TempCol[i,1]
+)
+
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if x=5 then (
+Reflect,
+
+a:1,
+
+if a=1 then (
+    NewMatrix:col(TestMatrix,Size),
+    for i from 2 thru Size do (
+        TempCol:col(TestMatrix,(Size+1-i)),
+        NewMatrix:addcol(NewMatrix,TempCol)
+    )
+),
+
+if a=2 then (
+    NewMatrix:row(TestMatrix,Size),
+    for i from 2 thru Size do (
+        TempRow:row(TestMatrix,(Size+1-i)),
+        NewMatrix:addrow(NewMatrix,TempRow)
+    )
+),
+
+if a=3 then (
+    NewMatrix:transpose(TestMatrix)
+),
+
+if a=4 then (
+    TempMatrix:col(TestMatrix,Size),
+    for i from 2 thru Size do (
+        TempCol:col(TestMatrix,(Size+1-i)),
+        TempMatrix:addcol(TempMatrix,TempCol)
+    ),
+    
+    TempMatrix2:row(TempMatrix,Size),
+    for i from 2 thru Size do (
+        TempRow:row(TempMatrix,(Size+1-i)),
+        TempMatrix2:addrow(TempMatrix2,TempRow)
+    ),
+    NewMatrix:transpose(TempMatrix2)
+)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if x=6 then (
+Rotate,
+
+a:1,
+
+OldMatrix:copymatrix(TestMatrix),
+if i>1 then (
+OldMatrix:copymatrix(NewMatrix)
+),
+
+NewMatrix:transpose(row(OldMatrix,Size)),
+for j from 1 thru (Size-1) do (
+        TempCol:transpose(row(OldMatrix,Size-j)),
+        NewMatrix:addcol(NewMatrix,TempCol)
+));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix;
+NewMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
