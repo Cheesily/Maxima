@@ -15,6 +15,10 @@ SqrtSize: sqrt(Size);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+set_random_state(make_random_state(absolute_real_time()))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
 Count:0$
 GridGen: (for i from 1 thru SqrtSize do (
     for j from 1 thru SqrtSize do (
@@ -48,85 +52,111 @@ LargeMComb;
 
 /* [wxMaxima: input   start ] */
 AllPossValues: makelist(i+1,i,0,Size-1);
-AllPossValuesList:makelist()$
+NotPossValuesList:makelist();
 for i from 1 thru (Size^2) do(
-TempList:[0],
-AllPossValuesList:append(AllPossValuesList,TempList)
-)$
+TempList:[[]],
+NotPossValuesList:append(NotPossValuesList,TempList)
+);
+NotPossValuesList;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-SolutionGen:(
-    for i from 1 thru 1 do (
-        for j from 1 thru 1 do (
-            for k from 1 thru 1 do (
-                for l from 1 thru 1 do (
-block(
-                    Possibles: AllPossValues,
-                    Temp: row(LargeMComb, (4*(i-1)+k)),
-                    Temp: Temp[1],
-                    NotPossRow: rest(Temp,-(16-(4*(j-1))-l+1)),
-                    Temp: col(LargeMComb, (4*(j-1)+l)),
-                    Temp: transpose(Temp),
-                    Temp: Temp[1],
-                    NotPossCol: rest(Temp,-(16-(4*(i-1))-k+1)),
+h:13$
+
+i:1+quotient(h-1,SqrtSize^3);
+j:1+quotient(mod(h-1,SqrtSize^3),Size);
+k:1+quotient(mod(h-1,Size),SqrtSize);
+l:1+mod(h-1,SqrtSize);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Possibles: AllPossValues$
+Temp: row(LargeMComb, (SqrtSize*(i-1)+k))$
+Temp: Temp[1]$
+NotPossRow: rest(Temp,-(Size-(SqrtSize*(j-1))-l+1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Temp: col(LargeMComb, (SqrtSize*(j-1)+l))$
+Temp: transpose(Temp)$
+Temp: Temp[1]$
+NotPossCol: rest(Temp,-(Size-(SqrtSize*(i-1))-k+1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Temp: row(LM[i,j],1)$
+for m from 2 thru SqrtSize do(
+TempRow: row(LM[i,j],m),
+Temp: addcol(Temp, TempRow))$
+TempRow: Temp[1]$
+NotPossBox: rest(TempRow, -(Size-(SqrtSize*(k-1))-l+1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NotPossRowCol: append(NotPossRow, NotPossCol)$
+NotPossRowColBox: append(NotPossRowCol, NotPossBox)$
+NotPossibles: append(NotPossRowColBox, NotPossValuesList[h])$
+NotPossibles: sort(NotPossibles)$
+NotPossibles: unique(NotPossibles);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if ((length(NotPossibles))=Size) then (
+    Backtrack:true,
+
+    NotPossValuesList[h]:[],
+    LM[i,j][k,l]:[],
+
+    h:h-1,
+
+    i:1+quotient(h-1,SqrtSize^3),
+    j:1+quotient(mod(h-1,SqrtSize^3),Size),
+    k:1+quotient(mod(h-1,Size),SqrtSize),
+    l:1+mod(h-1,SqrtSize),
+
+    NotPossValuesList[h]:append(NotPossValuesList[h],[LM[i,j][k,l]])
+)
+else (
+    for m from 1 thru length(NotPossibles) do (
+        Possibles: delete(NotPossibles[m], Possibles)
+    ),
                     
-                    Temp: row(LM[i,j],1),
-                    for m from 2 thru 4 do(
-                    TempRow: row(LM[i,j],m),
-                    Temp: addcol(Temp, TempRow)),
-                    TempRow: Temp[1],
-                    NotPossBox: rest(TempRow, -(16-(4*(k-1))-l+1)),
-                    NotPossRowCol: append(NotPossRow, NotPossCol),
-                    NotPossibles: append(NotPossRowCol, NotPossBox),
-                    NotPossibles: sort(NotPossibles),
-                    NotPossibles: unique(NotPossibles),
-                    if ((length(NotPossibles))=16) then (
-                        Backtrack:true,
-                        break
-                    )
-                    else (
-                    for m from 1 thru length(NotPossibles) do (
-                            Possibles: delete(NotPossibles[m], Possibles)),
-                    
-                    RandomValue: Possibles[1+random(length(Possibles))],
-                    LM[i,j][k,l]: RandomValue
-                    ),                    
-                    GemLargeMComb:(
-                        for i from 1 thru 4 do(
-                            BandGen:(Band: LM[i,1],
-                            for j from 2 thru 4 do (
-                                for k from 1 thru 4 do (
-                                    TempCol: col(LM[i,j],k),
-                                    Band: addcol(Band, TempCol)
-                            ))),
-                            if i=1 then (
-                            LargeMComb:Band
-                            )
-                            else (
-                                for i from 1 thru 4 do (
-                                    TempRow: row(Band, i),
-                                    LargeMComb:addrow(LargeMComb, TempRow)
-                        )))
-                    )
-                )
-            )
-        ))
-    )
+    RandomValue: Possibles[1+random(length(Possibles))],
+    LM[i,j][k,l]: RandomValue
 );
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-NotPossRow;
-NotPossCol;
-NotPossBox;
-length(NotPossibles);
-Possibles;
-Backtrack;
+GemLargeMComb:(
+for i from 1 thru SqrtSize do(
+BandGen:(Band: LM[i,1],
+for j from 2 thru SqrtSize do (
+for k from 1 thru SqrtSize do (
+TempCol: col(LM[i,j],k),
+Band: addcol(Band, TempCol)
+))),
+if i=1 then (
+LargeMComb:Band
+)
+else (
+for i from 1 thru SqrtSize do (
+TempRow: row(Band, i),
+LargeMComb:addrow(LargeMComb, TempRow)
+)))
+);
+LargeMComb;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
 LargeM;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+NotPossValuesList;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h;
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
