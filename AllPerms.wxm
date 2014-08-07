@@ -181,7 +181,7 @@ for j from 1 thru (Size-1) do (
         TempCol:transpose(row(OldMatrix,Size-j)),
         NewMatrix:addcol(NewMatrix,TempCol)
 )),
-Outputmatrix:NewMatrix
+OutputMatrix:NewMatrix
 );
 /* [wxMaxima: input   end   ] */
 
