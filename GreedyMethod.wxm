@@ -2,7 +2,7 @@
 /* [ Created with wxMaxima version 13.04.2 ] */
 
 /* [wxMaxima: input   start ] */
-GenericSolution;
+GreedyMethod;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -10,12 +10,8 @@ kill(all);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-Size:16;
+Size:4;
 SqrtSize: sqrt(Size);
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-set_random_state(make_random_state(absolute_real_time()))$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -61,10 +57,6 @@ NotPossValuesList;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-Backtrack:false;
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
 h:1$
 /* [wxMaxima: input   end   ] */
 
@@ -74,7 +66,6 @@ i:1+quotient(h-1,SqrtSize^3),
 j:1+quotient(mod(h-1,SqrtSize^3),Size),
 k:1+quotient(mod(h-1,Size),SqrtSize),
 l:1+mod(h-1,SqrtSize),
-
 Possibles: AllPossValues,
 Temp: row(LargeMComb, (SqrtSize*(i-1)+k)),
 Temp: Temp[1],
@@ -94,20 +85,15 @@ NotPossRowColBox: append(NotPossRowCol, NotPossBox),
 NotPossibles: append(NotPossRowColBox, NotPossValuesList[h]),
 NotPossibles: sort(NotPossibles),
 NotPossibles: unique(NotPossibles),
-
 if ((length(NotPossibles))=Size) then (
     Backtrack:true,
-
     NotPossValuesList[h]:[],
     LM[i,j][k,l]:[],
-
     h:h-1,
-
     i:1+quotient(h-1,SqrtSize^3),
     j:1+quotient(mod(h-1,SqrtSize^3),Size),
     k:1+quotient(mod(h-1,Size),SqrtSize),
     l:1+mod(h-1,SqrtSize),
-
     NotPossValuesList[h]:append(NotPossValuesList[h],[LM[i,j][k,l]])
 )
 else (
@@ -115,11 +101,10 @@ else (
         Possibles: delete(NotPossibles[m], Possibles)
     ),
                     
-    RandomValue: Possibles[1+random(length(Possibles))],
-    LM[i,j][k,l]: RandomValue,
+    LowValue: Possibles[1],
+    LM[i,j][k,l]: LowValue,
     h:h+1
 ),
-
 GemLargeMComb:(
 for i from 1 thru SqrtSize do(
 BandGen:(Band: LM[i,1],
@@ -141,18 +126,6 @@ LargeMComb:addrow(LargeMComb, TempRow)
 
 /* [wxMaxima: input   start ] */
 LargeM;
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-NotPossValuesList;
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-h;
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-Backtrack;
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
