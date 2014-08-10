@@ -1,0 +1,85 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+RemovingRandomGivens;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Size:4;
+SqrtSize:sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_random_state(make_random_state(absolute_real_time()))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix1a:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
+
+a:matrix([1,2],[3,4])$
+b:matrix([3,4],[1,2])$
+c:matrix([2,3],[4,1])$
+d:matrix([4,1],[2,3])$
+TestMatrix1b:matrix([a,b],[c,d])$
+
+TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
+[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+InputMatrix:TestMatrix1b;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ListOfRemCells:makelist()$
+for i from 1 thru (Size^2) do(
+TempList:[[i]],
+ListOfRemCells:append(ListOfRemCells,TempList)
+);
+ListOfRemCells;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:1+random(length(ListOfRemCells));
+y:ListOfRemCells[x][1];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+i:1+quotient(y-1,SqrtSize^3);
+j:1+quotient(mod(y-1,SqrtSize^3),Size);
+k:1+quotient(mod(y-1,Size),SqrtSize);
+l:1+mod(y-1,SqrtSize);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix:copymatrix(InputMatrix);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix[i,j][k,l]:""$
+TestMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+CheckTestMatrixIsStillAValidSolution;
+CheckValidUnique:true;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if CheckValidUnique=true then (
+InputMatrix:TestMatrix
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ListOfRemCells[x];
+ListOfRemCells:delete(ListOfRemCells[x],ListOfRemCells);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
