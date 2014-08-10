@@ -1,0 +1,132 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+GreedyMethod;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Size:4;
+SqrtSize: sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Count:0$
+GridGen: (for i from 1 thru SqrtSize do (
+    for j from 1 thru SqrtSize do (
+        Count: Count + 1, 
+        LM[i,j]: genmatrix(concat(B,Count), SqrtSize, SqrtSize))
+    )
+)$
+LargeM: genmatrix(LM, SqrtSize, SqrtSize);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+GemLargeMComb:(
+for i from 1 thru SqrtSize do(
+BandGen:(Band: LM[i,1],
+for j from 2 thru SqrtSize do (
+for k from 1 thru SqrtSize do (
+TempCol: col(LM[i,j],k),
+Band: addcol(Band, TempCol)
+))),
+if i=1 then (
+LargeMComb:Band
+)
+else (
+for i from 1 thru SqrtSize do (
+TempRow: row(Band, i),
+LargeMComb:addrow(LargeMComb, TempRow)
+)))
+);
+LargeMComb;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AllPossValues: makelist(i+1,i,0,Size-1);
+NotPossValuesList:makelist();
+for i from 1 thru (Size^2) do(
+TempList:[[]],
+NotPossValuesList:append(NotPossValuesList,TempList)
+);
+NotPossValuesList;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+while h<=(Size^2) do (
+i:1+quotient(h-1,SqrtSize^3),
+j:1+quotient(mod(h-1,SqrtSize^3),Size),
+k:1+quotient(mod(h-1,Size),SqrtSize),
+l:1+mod(h-1,SqrtSize),
+Possibles: AllPossValues,
+Temp: row(LargeMComb, (SqrtSize*(i-1)+k)),
+Temp: Temp[1],
+NotPossRow: rest(Temp,-(Size-(SqrtSize*(j-1))-l+1)),
+Temp: col(LargeMComb, (SqrtSize*(j-1)+l)),
+Temp: transpose(Temp),
+Temp: Temp[1],
+NotPossCol: rest(Temp,-(Size-(SqrtSize*(i-1))-k+1)),
+Temp: row(LM[i,j],1),
+for m from 2 thru SqrtSize do(
+TempRow: row(LM[i,j],m),
+Temp: addcol(Temp, TempRow)),
+TempRow: Temp[1],
+NotPossBox: rest(TempRow, -(Size-(SqrtSize*(k-1))-l+1)),
+NotPossRowCol: append(NotPossRow, NotPossCol),
+NotPossRowColBox: append(NotPossRowCol, NotPossBox),
+NotPossibles: append(NotPossRowColBox, NotPossValuesList[h]),
+NotPossibles: sort(NotPossibles),
+NotPossibles: unique(NotPossibles),
+if ((length(NotPossibles))=Size) then (
+    Backtrack:true,
+    NotPossValuesList[h]:[],
+    LM[i,j][k,l]:[],
+    h:h-1,
+    i:1+quotient(h-1,SqrtSize^3),
+    j:1+quotient(mod(h-1,SqrtSize^3),Size),
+    k:1+quotient(mod(h-1,Size),SqrtSize),
+    l:1+mod(h-1,SqrtSize),
+    NotPossValuesList[h]:append(NotPossValuesList[h],[LM[i,j][k,l]])
+)
+else (
+    for m from 1 thru length(NotPossibles) do (
+        Possibles: delete(NotPossibles[m], Possibles)
+    ),
+                    
+    LowValue: Possibles[1],
+    LM[i,j][k,l]: LowValue,
+    h:h+1
+),
+GemLargeMComb:(
+for i from 1 thru SqrtSize do(
+BandGen:(Band: LM[i,1],
+for j from 2 thru SqrtSize do (
+for k from 1 thru SqrtSize do (
+TempCol: col(LM[i,j],k),
+Band: addcol(Band, TempCol)
+))),
+if i=1 then (
+LargeMComb:Band
+)
+else (
+for i from 1 thru SqrtSize do (
+TempRow: row(Band, i),
+LargeMComb:addrow(LargeMComb, TempRow)
+)))
+));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LargeM;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
