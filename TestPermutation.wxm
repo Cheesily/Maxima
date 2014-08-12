@@ -10,14 +10,88 @@ kill(all);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
-TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
-[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8])$
+Size:4;
+SqrtSize:sqrt(Size);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-InputMatrix:TestMatrix1;
-CompareMatrix:matrix([4,3,1,2],[2,1,3,4],[3,2,4,1],[1,4,2,3]);
+TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
+TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
+[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8])$
+TestMatrix1b:matrix([4,1,2,3],[3,2,4,1],[1,4,3,2],[2,3,1,4]);
+TestMatrix1c:matrix([2,3,4,1],[1,4,2,3],[4,1,3,2],[3,2,1,4]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ListOfLetters:[a,b,c,d];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+InputMatrix:TestMatrix1c;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i from 1 thru Size do (
+for j from 1 thru Size do (
+Letter:ListOfLetters[InputMatrix[i,j]],
+InputMatrix[i,j]:Letter
+)
+)$
+InputMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ListOfLetters:row(copymatrix(InputMatrix),1)[1];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for j from 1 thru Size do (
+InputMatrix[1,j]:j
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+InputMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i from 2 thru Size do (
+for j from 1 thru Size do (
+Letter:InputMatrix[i,j],
+Position:sublist_indices(ListOfLetters,(lambda([x],x='Letter)))[1],
+InputMatrix[i,j]:Position
+));
+InputMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for h from 1 thru SqrtSize do(
+for i from 2 thru SqrtSize do (
+x:row(copymatrix(InputMatrix),i+(h-1)*SqrtSize)[1],
+j:i,
+while (j>1 and InputMatrix[j-1+(h-1)*SqrtSize,1]>x[1]) do (
+for k from 1 thru Size do (
+InputMatrix[j+(h-1)*SqrtSize,k]:InputMatrix[j-1+(h-1)*SqrtSize,k]
+),
+j:j-1
+),
+for k from 1 thru Size do (
+InputMatrix[j+(h-1)*SqrtSize,k]:x[k]
+)
+));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+MatrixB:InputMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+MatrixA;
+MatrixB;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(MatrixA=MatrixB);
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
