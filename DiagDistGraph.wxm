@@ -1,0 +1,89 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load("basic");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Input:read_list("C:/Users/James/Documents/GitHub/Maxima/9x9Thousand.mac")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ListOfDiagonals:[];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i from 1 thru 2000 step 2 do (
+InputLine:Input[i],
+SplitInput:split(InputLine,","),
+InputPartStr:SplitInput[3],
+InputPartInt:eval_string(InputPartStr),
+ListOfDiagonals:append(ListOfDiagonals,[InputPartInt])
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ListOfDiagonals;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ListOfDiagonals:sort(ListOfDiagonals);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+InitLength:length(ListOfDiagonals);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TempList:copylist(ListOfDiagonals);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+DistList:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+length(DistList);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Position:1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+while (length(TempList)>0) do(
+ListItem:pop(TempList),
+
+if ListItem=Position then (
+ListItem:ListItem-17,
+DistList[ListItem]:DistList[ListItem]+1
+)
+else (
+TempList:push(ListItem,TempList),
+Position:ListItem
+)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+DistList;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+XList:[18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60
+,61,62,63,64,65,66,67,68,69,70,71,72];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+XL:[1,2,3];
+YL:[4,8,2];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+plot2d([discrete,XList,DistList]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
