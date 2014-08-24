@@ -19,20 +19,37 @@ set_random_state(make_random_state(absolute_real_time()))$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-TestMatrix1a:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
-
-a:matrix([1,2],[3,4])$
-b:matrix([3,4],[1,2])$
-c:matrix([2,3],[4,1])$
-d:matrix([4,1],[2,3])$
-TestMatrix1b:matrix([a,b],[c,d])$
-
+TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
 TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
 [8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8])$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-InputMatrix:TestMatrix1b;
+InputMComb:TestMatrix1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Count:0$
+GridGen: (
+for i from 1 thru SqrtSize do (
+for j from 1 thru SqrtSize do (
+Count: Count + 1, 
+IM[i,j]: genmatrix(concat(B,Count), SqrtSize, SqrtSize)
+)))$
+InputM: genmatrix(IM, SqrtSize, SqrtSize)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for h from 1 thru Size^2 do (
+i:1+quotient(h-1,SqrtSize^3),
+j:1+quotient(mod(h-1,SqrtSize^3),Size),
+k:1+quotient(mod(h-1,Size),SqrtSize),
+l:1+mod(h-1,SqrtSize),
+m:1+quotient(h-1,Size),
+n:1+mod(h-1,Size),
+InputM[i,j][k,l]:InputMComb[m,n]
+)$
+InputM;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -40,8 +57,12 @@ ListOfRemCells:makelist()$
 for i from 1 thru (Size^2) do(
 TempList:[[i]],
 ListOfRemCells:append(ListOfRemCells,TempList)
-);
+)$
 ListOfRemCells;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+AllPossValues:makelist(i+1,i,0,Size-1);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -50,35 +71,80 @@ y:ListOfRemCells[x][1];
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+ListOfremCells:delete(ListOfRemCells[x],ListOfRemCells);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
 i:1+quotient(y-1,SqrtSize^3);
 j:1+quotient(mod(y-1,SqrtSize^3),Size);
 k:1+quotient(mod(y-1,Size),SqrtSize);
 l:1+mod(y-1,SqrtSize);
+m:1+quotient(y-1,Size);
+n:1+mod(y-1,Size);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-TestMatrix:copymatrix(InputMatrix);
+RemovedValue:InputMComb[m,n];
+InputMComb[m,n]:0$
+InputMComb;
+InputM[i,j][k,l]:0$
+InputM;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-TestMatrix[i,j][k,l]:""$
-TestMatrix;
+block(
+Temp: row(InputMComb, m),
+Row: Temp[1],
+
+Temp: col(InputMComb, n),
+Temp: transpose(Temp),
+Col: Temp[1],
+
+Temp: row(InputM[i,j],1),
+for p from 2 thru SqrtSize do(
+TempRow: row(InputM[i,j],p),
+Temp: addcol(Temp, TempRow)),
+Box: Temp[1],
+
+RowCol: append(Row, Col),
+NotPossibles: append(RowCol, Box),
+NotPossibles: sort(NotPossibles),
+NotPossibles: unique(NotPossibles),
+NotPossibles:delete(0,NotPossibles)
+)$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-CheckTestMatrixIsStillAValidSolution;
-CheckValidUnique:true;
+Row;
+Col;
+Box;
+NotPossibles;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-if CheckValidUnique=true then (
-InputMatrix:TestMatrix
+if length(NotPossibles)=(Size-1) then (
+Possibles:copylist(AllPossValues),
+Possibles: delete(RemovedValue, Possibles),
+for p from 1 thru length(NotPossibles) do (
+Possibles: delete(NotPossibles[p], Possibles)
+)
 );
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-ListOfRemCells[x];
-ListOfRemCells:delete(ListOfRemCells[x],ListOfRemCells);
+Possibles;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block:(if length(Possibles)>0 then (
+for p from 1 thru length(possibles) do (
+CheckForSolutionWithPInMN,
+if CheckSolution:true then (
+return
+)
+),
+CheckSolution:false
+));
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
