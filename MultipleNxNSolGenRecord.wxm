@@ -1,0 +1,146 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+CreatingMultipleSolutionsAndSaving;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_random_state(make_random_state(absolute_real_time()))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+file_output_append:true;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Size:4;
+SqrtSize: sqrt(Size);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for g from 1 thru 1000000 do (
+block(Count:0,
+GridGen: (for i from 1 thru SqrtSize do (
+    for j from 1 thru SqrtSize do (
+        Count: Count + 1, 
+        LM[i,j]: genmatrix(concat(B,Count), SqrtSize, SqrtSize))
+    )
+),
+
+LargeM: genmatrix(LM, SqrtSize, SqrtSize),
+GenLargeMComb:(
+for i from 1 thru SqrtSize do(
+BandGen:(Band: LM[i,1],
+for j from 2 thru SqrtSize do (
+for k from 1 thru SqrtSize do (
+TempCol: col(LM[i,j],k),
+Band: addcol(Band, TempCol)
+))),
+if i=1 then (
+LargeMComb:Band
+)
+else (
+for i from 1 thru SqrtSize do (
+TempRow: row(Band, i),
+LargeMComb:addrow(LargeMComb, TempRow)
+)))
+),
+
+AllPossValues:makelist(i+1,i,0,Size-1),
+NotPossValuesList:makelist(),
+for i from 1 thru (Size^2) do(
+TempList:[[]],
+NotPossValuesList:append(NotPossValuesList,TempList)
+),
+
+Backtrack:0,
+
+h:1,
+
+while h<=(Size^2) do (
+i:1+quotient(h-1,SqrtSize^3),
+j:1+quotient(mod(h-1,SqrtSize^3),Size),
+k:1+quotient(mod(h-1,Size),SqrtSize),
+l:1+mod(h-1,SqrtSize),
+Possibles: AllPossValues,
+Temp: row(LargeMComb, (SqrtSize*(i-1)+k)),
+Temp: Temp[1],
+NotPossRow: rest(Temp,-(Size-(SqrtSize*(j-1))-l+1)),
+Temp: col(LargeMComb, (SqrtSize*(j-1)+l)),
+Temp: transpose(Temp),
+Temp: Temp[1],
+NotPossCol: rest(Temp,-(Size-(SqrtSize*(i-1))-k+1)),
+Temp: row(LM[i,j],1),
+for m from 2 thru SqrtSize do(
+TempRow: row(LM[i,j],m),
+Temp: addcol(Temp, TempRow)),
+TempRow: Temp[1],
+NotPossBox: rest(TempRow, -(Size-(SqrtSize*(k-1))-l+1)),
+NotPossRowCol: append(NotPossRow, NotPossCol),
+NotPossRowColBox: append(NotPossRowCol, NotPossBox),
+NotPossibles: append(NotPossRowColBox, NotPossValuesList[h]),
+NotPossibles: sort(NotPossibles),
+NotPossibles: unique(NotPossibles),
+if ((length(NotPossibles))=Size) then (
+    Backtrack:Backtrack+1,
+    NotPossValuesList[h]:[],
+    LM[i,j][k,l]:[],
+    h:h-1,
+    i:1+quotient(h-1,SqrtSize^3),
+    j:1+quotient(mod(h-1,SqrtSize^3),Size),
+    k:1+quotient(mod(h-1,Size),SqrtSize),
+    l:1+mod(h-1,SqrtSize),
+    NotPossValuesList[h]:append(NotPossValuesList[h],[LM[i,j][k,l]])
+)
+else (
+    for m from 1 thru length(NotPossibles) do (
+        Possibles: delete(NotPossibles[m], Possibles)
+    ),
+                    
+    RandomValue: Possibles[1+random(length(Possibles))],
+    LM[i,j][k,l]: RandomValue,
+    h:h+1
+),
+GenLargeMComb:(
+for i from 1 thru SqrtSize do(
+BandGen:(Band: LM[i,1],
+for j from 2 thru SqrtSize do (
+for k from 1 thru SqrtSize do (
+TempCol: col(LM[i,j],k),
+Band: addcol(Band, TempCol)
+))),
+if i=1 then (
+LargeMComb:Band
+)
+else (
+for i from 1 thru SqrtSize do (
+TempRow: row(Band, i),
+LargeMComb:addrow(LargeMComb, TempRow)
+)))
+))),
+
+block(
+SumOfDiag:0,
+for i from 1 thru Size do (
+SumOfDiag:SumOfDiag+LargeMComb[i,i]
+),
+ListOfSolution:row(LargeMComb,1)[1],
+for i from 2 thru Size do (
+ListOfSolution:append(ListOfSolution,row(LargeMComb,i)[1])
+),
+string(ListOfSolution),
+Output:concat(g,",",Backtrack,",",SumOfDiag,",",string(ListOfSolution)),
+stringout("4x4Million.mac",Output)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+LargeMComb;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
