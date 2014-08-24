@@ -27,44 +27,33 @@ ListOfLetters:[a,b,c,d];
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-InputMatrix:TestMatrix1c;
+MatrixA:copymatrix(TestMatrix1b);
+MatrixB:copymatrix(TestMatrix1c);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+ReducedForm(InputMatrix):=(
+InputMatrix:InputMatrix,
+
 for i from 1 thru Size do (
 for j from 1 thru Size do (
 Letter:ListOfLetters[InputMatrix[i,j]],
 InputMatrix[i,j]:Letter
 )
-)$
-InputMatrix;
-/* [wxMaxima: input   end   ] */
+),
 
-/* [wxMaxima: input   start ] */
-ListOfLetters:row(copymatrix(InputMatrix),1)[1];
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
+ListOfLetters:row(copymatrix(InputMatrix),1)[1],
 for j from 1 thru Size do (
 InputMatrix[1,j]:j
-);
-/* [wxMaxima: input   end   ] */
+),
 
-/* [wxMaxima: input   start ] */
-InputMatrix;
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
 for i from 2 thru Size do (
 for j from 1 thru Size do (
 Letter:InputMatrix[i,j],
 Position:sublist_indices(ListOfLetters,(lambda([x],x='Letter)))[1],
 InputMatrix[i,j]:Position
-));
-InputMatrix;
-/* [wxMaxima: input   end   ] */
+)),
 
-/* [wxMaxima: input   start ] */
 for h from 1 thru SqrtSize do(
 for i from 2 thru SqrtSize do (
 x:row(copymatrix(InputMatrix),i+(h-1)*SqrtSize)[1],
@@ -78,11 +67,12 @@ j:j-1
 for k from 1 thru Size do (
 InputMatrix[j+(h-1)*SqrtSize,k]:x[k]
 )
-));
+)))$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-MatrixB:InputMatrix;
+ReducedForm(MatrixA);
+ReducedForm(MatrixB);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
