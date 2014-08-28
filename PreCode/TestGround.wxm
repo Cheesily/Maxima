@@ -1,0 +1,38 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(SudokuMatrixGen);
+load(CombMatrixGen);
+load(GetBand);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+SudokuMatrix:matrix([matrix([1,2],[3,4]),matrix([3,4],[1,2])],[matrix([2,3],[4,1]),matrix([4,1],[2,3])]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+
+ConvertSM2CM(SudokuMatrix):= block([Matrix:SudokuMatrix, SudokuMatrix, n:matrix_size(SudokuMatrix)[1], Band, GroupBands],
+    CombMatrix:GetBand(Matrix,SudokuMatrix,1),
+    for i:2 thru n do (
+Band:GetBand(Matrix,SudokuMatrix,i),
+for j:1 thru n do(
+CombMatrix:addrow(CombMatrix, row(Band,j))
+)
+
+),
+CombMatrix    
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ConvertSM2CM(SudokuMatrix);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

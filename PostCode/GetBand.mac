@@ -1,0 +1,23 @@
+/* Returns the band specified as a matrix */
+
+GetBand(Matrix,MatrixType,BandNo):=block([i:BandNo, n:matrix_size(Matrix)[1], TempCol],
+    
+if MatrixType=SudokuMatrix then(
+        Band:Matrix[i,1],
+
+        for j from 2 thru n do (
+
+            for k from 1 thru n do (
+
+                TempCol:col(Matrix[i,j],k),
+                
+Band: addcol(Band, TempCol)
+
+            )
+        
+)
+    
+),
+    
+Band
+);

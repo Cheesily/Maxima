@@ -6,11 +6,8 @@ CreatingMultipleSolutionsAndSaving;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Uses number of seconds since midnight January 1st 1900 to seed the random number generator */
 set_random_state(make_random_state(absolute_real_time()))$
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-file_output_append:true;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -18,12 +15,18 @@ kill(all);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+file_output_append:true;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Sets the size of the puzzle to be generated */
 Size:4;
 SqrtSize: sqrt(Size);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-for g from 1 thru 1000000 do (
+for g from 0 thru 0 do (
+/* Generates a matrix of matrices equivalent to a Sudoku grid */
 block(Count:0,
 GridGen: (for i from 1 thru SqrtSize do (
     for j from 1 thru SqrtSize do (
@@ -31,8 +34,9 @@ GridGen: (for i from 1 thru SqrtSize do (
         LM[i,j]: genmatrix(concat(B,Count), SqrtSize, SqrtSize))
     )
 ),
-
 LargeM: genmatrix(LM, SqrtSize, SqrtSize),
+
+/* Turns the above matrices  into one large matrix */
 GenLargeMComb:(
 for i from 1 thru SqrtSize do(
 BandGen:(Band: LM[i,1],
@@ -51,18 +55,18 @@ LargeMComb:addrow(LargeMComb, TempRow)
 )))
 ),
 
+/* Sets a few constants and sets up the list used to keep track of backtracking */
 AllPossValues:makelist(i+1,i,0,Size-1),
 NotPossValuesList:makelist(),
 for i from 1 thru (Size^2) do(
 TempList:[[]],
 NotPossValuesList:append(NotPossValuesList,TempList)
 ),
-
 Backtrack:0,
-
 h:1,
 
 while h<=(Size^2) do (
+/* For the position specified, creates lists of elements which appear in the row, the column, and the box up to that point */
 i:1+quotient(h-1,SqrtSize^3),
 j:1+quotient(mod(h-1,SqrtSize^3),Size),
 k:1+quotient(mod(h-1,Size),SqrtSize),
@@ -81,12 +85,17 @@ TempRow: row(LM[i,j],m),
 Temp: addcol(Temp, TempRow)),
 TempRow: Temp[1],
 NotPossBox: rest(TempRow, -(Size-(SqrtSize*(k-1))-l+1)),
+
+/* This combines the three lists into one, and removes duplicates */
 NotPossRowCol: append(NotPossRow, NotPossCol),
 NotPossRowColBox: append(NotPossRowCol, NotPossBox),
 NotPossibles: append(NotPossRowColBox, NotPossValuesList[h]),
 NotPossibles: sort(NotPossibles),
 NotPossibles: unique(NotPossibles),
+
 if ((length(NotPossibles))=Size) then (
+/* If there are no possible values to go in the cell, it resets the list of not possible cells for this position, goes to the cell before, 
+and adds this value to the backtracking list */
     Backtrack:Backtrack+1,
     NotPossValuesList[h]:[],
     LM[i,j][k,l]:[],
@@ -98,6 +107,8 @@ if ((length(NotPossibles))=Size) then (
     NotPossValuesList[h]:append(NotPossValuesList[h],[LM[i,j][k,l]])
 )
 else (
+/* Else it removes the list of not possible values from the list of all values, 
+and randomly selects a value to be placed into the cell */
     for m from 1 thru length(NotPossibles) do (
         Possibles: delete(NotPossibles[m], Possibles)
     ),
@@ -106,6 +117,8 @@ else (
     LM[i,j][k,l]: RandomValue,
     h:h+1
 ),
+
+/* Generates the large matrix from the matrices */
 GenLargeMComb:(
 for i from 1 thru SqrtSize do(
 BandGen:(Band: LM[i,1],
@@ -124,6 +137,7 @@ LargeMComb:addrow(LargeMComb, TempRow)
 )))
 ))),
 
+/* Generates and writes the data string to the specified file */
 block(
 SumOfDiag:0,
 for i from 1 thru Size do (
@@ -135,11 +149,7 @@ ListOfSolution:append(ListOfSolution,row(LargeMComb,i)[1])
 ),
 string(ListOfSolution),
 Output:concat(g,",",Backtrack,",",SumOfDiag,",",string(ListOfSolution)),
-stringout("4x4Million.mac",Output)));
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-LargeMComb;
+stringout("Delete",Output)));
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */

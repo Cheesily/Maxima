@@ -10,15 +10,18 @@ kill(all);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Uses number of seconds since midnight January 1st 1900 to seed the random number generator */
+set_random_state(make_random_state(absolute_real_time()))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Sets the size of the puzzle which will have cells removed */
 Size:4;
 SqrtSize:sqrt(Size);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-set_random_state(make_random_state(absolute_real_time()))$
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
+/* Test matrices, to be removed */
 TestMatrix1:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3])$
 TestMatrix2:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
 [8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8])$
@@ -29,6 +32,7 @@ InputMComb:TestMatrix1;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Generates a matrix of matrices equivalent to a Sudoku grid */
 Count:0$
 GridGen: (
 for i from 1 thru SqrtSize do (
@@ -40,6 +44,7 @@ InputM: genmatrix(IM, SqrtSize, SqrtSize)$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Copies the large input matrix to the matrices generated above */
 for h from 1 thru Size^2 do (
 i:1+quotient(h-1,SqrtSize^3),
 j:1+quotient(mod(h-1,SqrtSize^3),Size),
@@ -53,6 +58,7 @@ InputM;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Creates a list of all cells which can be randomly selected */
 ListOfRemCells:makelist()$
 for i from 1 thru (Size^2) do(
 TempList:[[i]],
@@ -66,15 +72,14 @@ AllPossValues:makelist(i+1,i,0,Size-1);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Selects a cell position to be cleared, and removes this from the list */
 x:1+random(length(ListOfRemCells));
 y:ListOfRemCells[x][1];
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
 ListOfremCells:delete(ListOfRemCells[x],ListOfRemCells);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Calculates matrix indices to be used */
 i:1+quotient(y-1,SqrtSize^3);
 j:1+quotient(mod(y-1,SqrtSize^3),Size);
 k:1+quotient(mod(y-1,Size),SqrtSize);
@@ -84,6 +89,7 @@ n:1+mod(y-1,Size);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Records value to be removed, and replaces the cell with 0 in both matrices */
 RemovedValue:InputMComb[m,n];
 InputMComb[m,n]:0$
 InputMComb;
@@ -92,6 +98,7 @@ InputM;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+/* Creates a list of values which cannot go into the cleared cell */
 block(
 Temp: row(InputMComb, m),
 Row: Temp[1],
@@ -122,21 +129,16 @@ NotPossibles;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-if length(NotPossibles)=(Size-1) then (
+/* Tests if any other values can go in to the cleared cell, and if there are possible values, it creates a list of these */
+if length(NotPossibles)!=(Size-1) then (
 Possibles:copylist(AllPossValues),
 Possibles: delete(RemovedValue, Possibles),
 for p from 1 thru length(NotPossibles) do (
 Possibles: delete(NotPossibles[p], Possibles)
-)
-);
-/* [wxMaxima: input   end   ] */
+),
 
-/* [wxMaxima: input   start ] */
-Possibles;
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-block:(if length(Possibles)>0 then (
+/* For each possible value, tests if this leads to a valid solution */
+block:(
 for p from 1 thru length(possibles) do (
 CheckForSolutionWithPInMN,
 if CheckSolution:true then (

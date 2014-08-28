@@ -1,0 +1,3 @@
+/* Combined Matrix Generator */
+
+CombMatrixGen(N):=zeromatrix(N,N);

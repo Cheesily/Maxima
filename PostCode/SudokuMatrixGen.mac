@@ -1,0 +1,13 @@
+/* Sudoku Matrix Generator */
+
+SudokuMatrixGen(N):= block([n:sqrt(N)],
+    SudokuMatrix : zeromatrix(n,n),
+    
+for i:1 thru n do (
+        
+for j:1 thru n do (
+            SudokuMatrix[i,j]:zeromatrix(n,n)
+        )
+    ),
+    SudokuMatrix
+);
