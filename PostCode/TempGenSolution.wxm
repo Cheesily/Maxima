@@ -1,0 +1,46 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+/* Generate a solution of specified size */
+
+GenSolution(Size):=block([N:Size,SudokuMatrix,CombMatrix,AllPossValues,NotPossValues,BackTrack:0,Count:1,Positions,Possibles,NotPossibles,RandomValue],
+    SudokuMatrix:SudokuMatrixGen(N),
+    CombMatrix:CombMatrixGen(N),
+    AllPossValues:GenAllPossValuesList(N),
+    NotPossValuesList:GenNotPossValuesList(N),
+    
+    while Count<=(N^2) do (
+        Positions:GetPositions(Count),
+        Possibles:AllPossValues,
+        NotPossibles:NotPossibles(Positions,SudokuMatrix,CombMatrix,NotPossValuesList[Count]),
+
+        if ((length(NotPossibles))=Size) then (
+            Backtrack:Backtrack+1,
+            NotPossValuesList[Count]:[],
+            SetValue(SudokuMatrix,SudokuMatrix,Positions,0),
+            SetValue(CombMatrix,CombMatrix,Positions,0),
+            Count:Count-1,
+            Positions:GetPositions(Count),
+            NotPossValuesList[Count]:append(NotPossValuesList[Count],GetValue(SudokuMatrix,SudokuMatrix,Positions))
+        )
+
+        else(
+            for i:1 thru length(NotPossibles) do (
+                Possibles: delete(NotPossibles[i], Possibles)
+            ),
+            RandomValue: Possibles[1+random(length(Possibles))],
+            SetValue(SudokuMatrix,SudokuMatrix,Positions,RandomValue),
+            SetValue(CombMatrix,CombMatrix,Positions,RandomValue),
+            Count:Count+1
+        )
+    )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+MakeAllPossValuesList(4);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

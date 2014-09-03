@@ -1,0 +1,24 @@
+
+/* Swaps two bands of a CombMatrix */
+
+SwapBands(CombMatrix,Band1No,Band2No):=block([N:length(CombMatrix[1]),n:sqrt(N),TempBand:zeromatrix(n,N)],
+    for i:1 thru n do (
+        for j:1 thru N do (
+            TempBand[i,j]:CombMatrix[n*(Band1No-1)+i,j]
+        )
+    ),
+
+    for i:1 thru n do (
+        for j:1 thru N do (
+            CombMatrix[n*(Band1No-1)+i,j]:CombMatrix[n*(Band2No-1)+i,j]
+        )
+    ),
+
+
+    for i:1 thru n do (
+        for j:1 thru N do (
+            CombMatrix[n*(Band2No-1)+i,j]:TempBand[i,j]
+        )
+    )
+);
+

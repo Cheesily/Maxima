@@ -1,0 +1,43 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(stringproc);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Output1: "1234341223414123 55 2.1 46";
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Output2: "1234341223414123 55 2.1 800";
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+s: openw("C:/Users/James/Documents/File.txt");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+printf(s,Output1);
+freshline(s);
+printf(s,Output2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+close(s);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+t:openr("C:/Users/James/Documents/File.txt");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+readline(t);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

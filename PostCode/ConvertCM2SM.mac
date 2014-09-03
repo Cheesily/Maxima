@@ -1,0 +1,3 @@
+/* Converts a Combined Matrix into a Sudoku Matrix */
+
+ConvertCM2SM(CombMatrix):=

@@ -1,0 +1,18 @@
+
+/* For a given matrix and position, creates a list of value which can not be placed in thet cell */
+
+NotPossibles(Positions,SudokuMatrix,ListNotPossValues):=block([Band:Positions[1],Stack:Positions[2],Row:Positions[3],Column:Positions[4],Temp,N:matrix_size(CombMatrix)[1],n:matrix_size(SudokuMatrix)[1]],
+    NotPossRow: row(CombMatrix, (n*(Band-1)+Row))[1],
+    NotPossCol: col(CombMatrix, (n*(Stack-1)+Column))[1],
+    Temp: row(SudokuMatrix[Band,Stack],1),
+    for i:2 thru n do(
+        TempRow: row(SudokuMatrix[Band,Stack],i),
+        Temp: addcol(Temp, TempRow)
+    ),
+    NotPossBox: Temp[1],
+
+    NotPossibles: append(NotPossRow,NotPossCol, NotPossBox, ListNotPossValues),
+    NotPossibles: unique(NotPossibles),
+    NotPossibles: delete(0,NotPossibles)
+);
+

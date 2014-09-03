@@ -1,0 +1,15 @@
+
+/* Swaps the two specified rows within the specified band of a CombMatrix */
+
+SwapRows(CombMatrix,BandNo,Row1No,Row2No):=block([N:length(CombMatrix[1]),n:sqrt(N),TempRow:zeromatrix(1,N)],
+    for i:1 thru N do (
+        TempRow[1,i]:CombMatrix[n*(BandNo-1)+Row1No,i]
+    ),
+    for i:1 thru N do (
+        CombMatrix[n*(BandNo-1)+Row1No,i]:CombMatrix[n*(BandNo-1)+Row2No,i]
+    ),
+    for i:1 thru N do (
+        CombMatrix[n*(BandNo-1)+Row2No,i]:TempColRow[1,i]
+    )
+);
+

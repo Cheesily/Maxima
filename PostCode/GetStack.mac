@@ -1,0 +1,15 @@
+/* Returns the stack specified as a matrix */
+
+GetStack(Matrix,MatrixType,StackNo):=block([i:StackNo, n:matrix_size(Matrix)[1], TempRow],
+    if MatrixType=SudokuMatrix then(
+        Stack:Matrix[i,1],
+        for j from 2 thru n do (
+            for k from 1 thru n do (
+                TempRow:row(Matrix[i,j],k),
+                Stack: addrow(Stack, TempRow)
+            )
+        )
+    ),
+    Stack
+);
+

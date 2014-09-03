@@ -1,0 +1,13 @@
+
+/* Retrieves a value in a position in a matrix */
+
+GetValue(Matrix, Type, Positions):=block([Band:Positions[1],Stack:Positions[2],Row:Positions[3],Column:Positions[4],CMRow:Positions[5],CMColumn:Positions[6]],
+    if Type=SudokuMatrix then (
+        Value:Matrix[Band,Stack][Row,Column]
+    ),
+    if Type=CombMatrix then (
+        Value:Matrix[CMRow,CMColumn]
+    ),
+    Value
+);
+

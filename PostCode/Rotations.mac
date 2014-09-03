@@ -1,0 +1,18 @@
+
+/* Rotates a CombMatrix by either one, two or three quarters */
+
+Rotate(CombMatrix,NoOfRots):=block([N:length(CombMatrix[1]),OldMatrix,NewMatrix,TempCol],
+    OldMatrix:copymatrix(CombMatrix),
+    for i:1 thru NoOfRots do (
+        if i>1 then (
+            OldMatrix:copymatrix(NewMatrix)
+        ),
+        NewMatrix:transpose(row(OldMatrix,N)),
+        for j:1 thru (N-1) do (
+            TempCol:transpose(row(OldMatrix,N-j)),
+            NewMatrix:addcol(NewMatrix,TempCol)
+        )
+    ),
+    CombMatrix:NewMatrix
+);
+

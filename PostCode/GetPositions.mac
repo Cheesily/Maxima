@@ -1,0 +1,13 @@
+
+/* Takes a value which represents a square, and returns the band, stack, row within the band and the column within the stack */
+
+GetPositions(Value,Size):=block([Position:Value,N:Size,n:sqrt(Size),Band,Stack,Row,Column,CMRow,CMColumn],
+    Band:1+quotient(Value-1,n^3),
+    Stack:1+quotient(mod(Value-1,n^3),N),
+    Row:1+quotient(mod(Value-1,N),n),
+    Column:1+mod(Value-1,n),
+    CMRow:n*(Band-1)+Row,
+    CMColumn:n*(Stack-1)+Column,
+    ListOfPositions:[Band,Stack,Row,Column,CMRow,CMColumn]
+);
+

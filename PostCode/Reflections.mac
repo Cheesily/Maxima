@@ -1,0 +1,42 @@
+
+/* Reflects a Combined Matrix in one of the four possible axes */
+
+Reflect(CombMatrix,Axis):=block([N:length(CombMatrix[1]),NewMatrix,TempCol,TempRow,TempMatrix,TempMatrix2],
+    if Axis=1 then (
+        NewMatrix:col(CombMatrix,N),
+        for i:2 thru N do (
+            TempCol:col(TestMatrix,(N+1-i)),
+            NewMatrix:addcol(NewMatrix,TempCol)
+        )
+    ),
+
+    if Axis=2 then (
+        NewMatrix:row(CombMatrix,N),
+        for i:2 thru N do (
+            TempRow:row(TestMatrix,(N+1-i)),
+            NewMatrix:addrow(NewMatrix,TempRow)
+        )
+    ),
+
+    if Axis=3 then (
+        NewMatrix:transpose(CombMatrix)
+    ),
+
+    if Axis=4 then (
+        TempMatrix:col(CombMatrix,N),
+        for i:2 thru N do (
+            TempCol:col(CombMatrix,(N+1-i)),
+            TempMatrix:addcol(TempMatrix,TempCol)
+        ),
+    
+        TempMatrix2:row(TempMatrix,N),
+        for i:2 thru N do (
+            TempRow:row(TempMatrix,(N+1-i)),
+            TempMatrix2:addrow(TempMatrix2,TempRow)
+        ),
+        NewMatrix:transpose(TempMatrix2)
+    ),
+
+    CombMatrix:NewMatrix
+);
+

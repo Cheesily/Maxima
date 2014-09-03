@@ -1,0 +1,37 @@
+/* Generate a solution of specified size */
+
+GenSolution(Size):=block([N:Size,SudokuMatrix,CombMatrix,AllPossValues,NotPossValues,BackTrack:0,Count:1,Positions,Possibles,NotPossibles,RandomValue],
+    SudokuMatrix:SudokuMatrixGen(N),
+    CombMatrix:CombMatrixGen(N),
+    AllPossValues:GenAllPossValuesList(N),
+    NotPossValues:GenNotPossValuesList(N),
+    Backtrack:0,
+    
+    while Count<=(N^2) do (
+        Positions:GetPositions(Count,N),
+        Possibles:AllPossValues,
+        NotPossibles:NotPossibles(Positions,SudokuMatrix,CombMatrix,NotPossValues[Count]),
+
+        if ((length(NotPossibles))=Size) then (
+            Backtrack:Backtrack+1,
+            NotPossValuesList[Count]:[],
+            SetValue(SudokuMatrix,SudokuMatrix,Positions,0),
+            SetValue(CombMatrix,CombMatrix,Positions,0),
+            Count:Count-1,
+            Positions:GetPositions(Count,N),
+            NotPossValuesList[Count]:append(NotPossValuesList[Count],[GetValue(SudokuMatrix,SudokuMatrix,Positions)])
+        )
+
+        else(
+            for i:1 thru length(NotPossibles) do (
+                Possibles: delete(NotPossibles[i], Possibles)
+            ),
+            RandomValue: Possibles[1+random(length(Possibles))],
+            SetValue(SudokuMatrix,SudokuMatrix,Positions,RandomValue),
+            SetValue(CombMatrix,CombMatrix,Positions,RandomValue),
+            Count:Count+1
+        )
+    ),
+    SudokuMatrix
+);
+

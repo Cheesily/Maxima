@@ -1,0 +1,13 @@
+
+/* Assigns a value to a position in a matrix */
+
+SetValue(Matrix, Type, Positions, Value):=block([Band:Positions[1],Stack:Positions[2],Row:Positions[3],Column:Positions[4],CMRow:Positions[5],CMColumn:Positions[6]],
+    if Type=SudokuMatrix then (
+        Matrix[Band,Stack][Row,Column]:Value
+    ),
+
+    if Type=CombMatrix then (
+        Matrix[CMRow,CMColumn]:Value
+    )
+);
+

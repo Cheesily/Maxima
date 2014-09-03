@@ -1,0 +1,7 @@
+
+/* Generates a list of all values in the Sudoku solution for the specified size */
+
+GenAllPossValuesList(Size):=(
+    makelist(i+1,i,0,Size-1)
+);
+

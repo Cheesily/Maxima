@@ -1,0 +1,12 @@
+
+/* Generates a list used to store information of which values cannot be placed in which positions at that time */
+
+GenNotPossValuesList(Size):=(
+    NotPossValuesList:makelist(),
+    for i from 1 thru (Size^2) do(
+        TempList:[[]],
+        NotPossValuesList:append(NotPossValuesList,TempList)
+    ),
+    NotPossValuesList
+);
+

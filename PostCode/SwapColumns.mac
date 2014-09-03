@@ -1,0 +1,15 @@
+
+/* Swaps the two specified columns within the specified stack of a CombMatrix */
+
+SwapColumns(CombMatrix,StackNo,Column1No,Column2No):=block([N:length(CombMatrix[1]),n:sqrt(N),TempColumn:zeromatrix(N,1)],
+    for i:1 thru N do (
+        TempColumn[i,1]:CombMatrix[i,n*(StackNo-1)+Column1No]
+    ),
+    for i:1 thru N do (
+        CombMatrix[i,n*(StackNo-1)+Column1No]:CombMatrix[i,n*(StackNo-1)+Column2No]
+    ),
+    for i:1 thru N do (
+        CombMatrix[i,n*(StackNo-1)+Column2No]:TempColumn[i,1]
+    )
+);
+

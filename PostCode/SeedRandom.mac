@@ -1,0 +1,7 @@
+
+/* Seeds the pseudo-random number generator*/
+
+SeedRandom():=(
+    set_random_state(make_random_state(absolute_real_time()))
+);
+

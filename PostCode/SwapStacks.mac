@@ -1,0 +1,24 @@
+
+/* Swaps two stacks of a CombMatrix */
+
+SwapStacks(CombMatrix,Stack1No,Stack2No):=block([N:length(CombMatrix[1]),n:sqrt(N),TempStack:zeromatrix(N,n)],
+    for i:1 thru N do (
+        for j:1 thru n do (
+            TempStack[i,j]:CombMatrix[i,n*(Stack1No-1)+j]
+        )
+    ),
+
+    for i:1 thru N do (
+        for j:1 thru n do (
+            CombMatrix[i,n*(Stack1No-1)+j]:CombMatrix[i,n*(Stack2No-1)+j]
+        )
+    ),
+
+
+    for i:1 thru N do (
+        for j:1 thru n do (
+            CombMatrix[i,n*(Stack2No-1)+j]:TempStack[i,j]
+        )
+    )
+);
+

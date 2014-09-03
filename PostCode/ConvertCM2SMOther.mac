@@ -1,0 +1,20 @@
+
+/* Converts a Combined Matrix into a Sudoku Matrix */
+
+ConvertCM2SM(CombMatrix):=block([N,n,TempMatrix],
+    N:matrix_size(CombMatrix)[1],
+    n:sqrt(N),
+    SudokuMatrix:zeromatrix(n,n),
+    for i:1 thru n do (
+        for j:1 thru n do (
+            TempMatrix:submatrix(,CombMatrix,),
+            SudokuMatrix[i,j]:TempMatrix
+        )
+    ),
+    SudokuMatrix
+);
+
+Test:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3]);
+
+submatrix(3,4,Test,3,4);
+

@@ -1,5 +1,7 @@
 /* Returns the band specified as a matrix */
 
+/* EDIT: Allow to work for CombMatrix, the way the size is calculated needs to be changed */
+
 GetBand(Matrix,MatrixType,BandNo):=block([i:BandNo, n:matrix_size(Matrix)[1], TempCol],
     
 if MatrixType=SudokuMatrix then(
