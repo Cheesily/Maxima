@@ -84,8 +84,8 @@ i:1+quotient(y-1,SqrtSize^3);
 j:1+quotient(mod(y-1,SqrtSize^3),Size);
 k:1+quotient(mod(y-1,Size),SqrtSize);
 l:1+mod(y-1,SqrtSize);
-m:1+quotient(y-1,Size);
-n:1+mod(y-1,Size);
+m:Size*(i-1)+k;
+n:SqrtSize*(j-1)+l;
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -139,13 +139,13 @@ Possibles: delete(NotPossibles[p], Possibles)
 
 /* For each possible value, tests if this leads to a valid solution */
 block:(
-for p from 1 thru length(possibles) do (
-CheckForSolutionWithPInMN,
-if CheckSolution:true then (
+for p from 1 thru length(Possibles) do (
+CheckSatisfiable(InputMComb,Possibles[p]),
+if CheckSatisfiable:true then (
 return
 )
 ),
-CheckSolution:false
+CheckSatisfiable:false
 ));
 /* [wxMaxima: input   end   ] */
 

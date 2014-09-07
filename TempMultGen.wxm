@@ -1,0 +1,25 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+load(GenSolutionOutput1);
+load(nchrpl);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(SeedRandom);
+SeedRandom();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+s: opena("C:/Users/James/Documents/Output.txt");
+for i:1 thru 1000 do (
+    Output:sconcat(i," ",GenSolutionOutput1(9)),
+    freshline(s),
+    printf(s,Output)
+);
+close(s);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
