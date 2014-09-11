@@ -1,3 +1,47 @@
 
-VarC,V
+/* Performs a randomly selected permutation on the given matrix */
+
+PermuteRandom(CombMatrix):=block([Perm,n:sqrt(length(CombMatrix[1])),VarA,VarB,VarC,NoOfRots,Axis],
+    load(LoadPerms),
+    SeedRandom(),
+    Perm:1+random(6),
+
+    if Perm<5 then (
+        VarA:1+random(n),
+        VarB:1+random(n),
+        while VarA=VarB do (
+            VarB:1+random(n)
+        ),
+        
+        if Perm>2 then (
+            VarC:1+random(n)
+        )
+    ),
+
+    if Perm=1 then (
+        SwapBands(CombMatrix,VarA,VarB)
+    ),
+
+    if Perm=2 then (
+        SwapStacks(CombMatrix,VarA,VarB)
+    ),
+
+    if Perm=3 then (
+        SwapRows(CombMatrix,VarC,VarA,VarB)
+    ),
+
+    if Perm=4 then (
+        SwapColumns(CombMatrix,VarC,VarA,VarB)
+    ),
+
+    if Perm=5 then (
+        NoOfRots:1+random(3),
+        Rotate(CombMatrix,NoOfRots)
+    ),
+
+    if Perm=6 then (
+        Axis:1+random(4),
+        Reflect(CombMatrix,Axis)
+    )
+);
 
