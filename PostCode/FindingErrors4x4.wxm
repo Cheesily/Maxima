@@ -1,0 +1,39 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix:matrix([1,2,3,4],[3,4,1,2],[2,3,4,1],[4,1,2,3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+    load(LoadRemoving);
+    LoadRemoving();
+    SeedRandom();
+    ListOfRemCells:GenListRemCells(TestMatrix);
+    CNFSolM:ConvertToCNF(TestMatrix,true);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+    ListValuePos:1+random(length(ListOfRemCells));
+    ValuePos:ListOfRemCells[ListValuePos][1];
+    ListOfRemCells:delete(ListOfRemCells[ListValuePos],ListOfRemCells);
+    RemovedValue:GetValue(TestMatrix,CombMatrix,ValuePos);
+    SetValue(TestMatrix,CombMatrix,ValuePos,0);
+
+    Satisfiable:TestSatisfiable(TestMatrix,CNFSolM);
+    if Satisfiable="s SATISFIABLE" then (
+        SetValue(TestMatrix,CombMatrix,ValuePos,RemovedValue)
+    );
+    Satisfiable:"";
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

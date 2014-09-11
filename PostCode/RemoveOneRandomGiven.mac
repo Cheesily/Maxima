@@ -1,0 +1,8 @@
+
+/* Remove one value selected using the PRNG */
+
+RemoveOneRandomGiven(CombMatrix,CNFSolM,ListOfRemCells):=block([],
+    ListValuePos:1+random(length(ListOfRemCells)),    ValuePos:ListOfRemCells[ListValuePos][1],    ListOfRemCells:delete(ListOfRemCells[ListValuePos],ListOfRemCells),    RemovedValue:GetValue(CombMatrix,CombMatrix,ValuePos),    SetValue(CombMatrix,CombMatrix,ValuePos,0),
+
+    Satisfiable:TestSatisfiable(CombMatrix,CNFSolM),    if Satisfiable="s SATISFIABLE" then (        SetValue(CombMatrix,CombMatrix,ValuePos,RemovedValue)    ),    Satisfiable:"");
+

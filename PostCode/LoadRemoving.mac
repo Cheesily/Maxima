@@ -1,0 +1,12 @@
+
+/* Loads all files needed to remove givens */
+
+LoadRemoving():=(
+    load(SeedRandom),
+    load(GenListRemCells),
+    load(ConvertToCNF),
+    load(RemoveOneRandomGiven),
+    load(GetValue),
+    load(SetValue),
+    load(TestSatisfiable)
+);

@@ -1,0 +1,12 @@
+
+/* Loads all permutations */
+
+LoadPerms():=(
+    load(SwapBands),
+    load(SwapStacks),
+    load(SwapRows),
+    load(SwapColumns),
+    load(Reflect),
+    load(Rotate)
+);
+

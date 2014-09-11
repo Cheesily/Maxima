@@ -1,0 +1,12 @@
+
+/* Generates a list of lists which contain an integer up to the size of the puzzle */
+
+GenListRemCells(CombMatrix):=block([N:length(CombMatrix[1])],
+    ListOfRemCells:makelist(),
+    for i:1 thru (N^2) do(
+        TempList:[[i]],
+        ListOfRemCells:append(ListOfRemCells,TempList)
+    ),
+    ListOfRemCells
+);
+

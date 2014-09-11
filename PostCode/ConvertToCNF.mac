@@ -1,0 +1,30 @@
+
+/* Converts a Combined Matrix into a CNF format */
+
+ConvertToCNF(InMatrix,IsSolution):=block([N:length(InMatrix[1]),CNF,ListCNF,Mult,Clause],
+    CNF:"",
+    ListCNF:[],
+    if N<16 then Mult:10 else Mult:N+1,
+    for i:1 thru N do (
+        for j:1 thru N do(
+            if InMatrix[i,j]#0 then (
+                Clause:i*Mult^2+j*Mult+InMatrix[i,j],
+                if IsSolution=true then (
+                    CNF:sconcat(CNF, "-", Clause, " ")
+                )
+                else (
+                    Clause:sconcat(Clause, " 0"),
+                    ListCNF:append(ListCNF,[Clause])
+                )
+            )
+        )
+    ),
+    if IsSolution=true then (
+        Output:sconcat(CNF, "0")
+    )
+    else (
+        Output:ListCNF
+    ),
+    Output
+);
+

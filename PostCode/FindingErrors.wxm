@@ -1,0 +1,36 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix:matrix([1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],
+[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+    load(LoadRemoving);
+    LoadRemoving();
+    SeedRandom();
+    ListOfRemCells:GenListRemCells(TestMatrix);
+    CNFSolM:ConvertToCNF(TestMatrix,true);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+    ListValuePos:1+random(length(ListOfRemCells));
+    ValuePos:ListOfRemCells[ListValuePos][1];
+    ListOfRemCells:delete(ListOfRemCells[ListValuePos],ListOfRemCells);
+    RemovedValue:GetValue(CombMatrix,CombMatrix,ValuePos);
+    SetValue(CombMatrix,CombMatrix,ValuePos,0);
+
+    Satisfiable:TestSatisfiable(CombMatrix,CNFSolM);
+    if Satisfiable=false then (
+        SetValue(CombMatrix,CombMatrix,ValuePos,RemovedValue)
+    );
+    Satisfiable:false;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TestMatrix;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

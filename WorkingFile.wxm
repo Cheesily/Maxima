@@ -1,0 +1,94 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(stringproc);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+CNFCombM:ConvertToCNF(CombMatrix);
+CNFSolM:ConvertToCNF(SolutionMatrix);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Found:False;
+Answer:"";
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+CNFCombM:"111 0";
+CNFSolM:"122 0";
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+system("C:/Users/James/Documents/GitHub/Maxima/Solver/Temp");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+stream:opena("C:/Users/James/Documents/GitHub/Maxima/Solver/TempNxNCNF.txt");
+freshline(stream);
+printf(stream,CNFSolM);
+freshline(stream);
+printf(stream,CNFCombM);
+close(stream);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+system("C:/Users/James/Documents/GitHub/Maxima/Solver/SatSolver");
+stream:openr("C:/Users/James/Documents/GitHub/Maxima/Solver/Output.txt");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+while (Found=False) do(
+    Answer:readline(stream),
+    if Answer="s SATISFIABLE" or Answer="s UNSATISFIABLE" then (
+        Found:True
+    )
+);
+close(stream);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Answer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/*
+dir
+copy base to temp
+Write CNF to tempfile
+run java
+get answer
+
+cd C:/Users/James/Documents/GitHub/Maxima/Solver
+
+
+del Output.txt
+
+
+java -jar org.sat4j.core.jar 4x4TempCNF.txt >Output.txt
+
+
+del 4x4TempCNF.txt
+
+
+copy 4x4BaseCNF.txt 4x4TempCNF.txt
+*/
+
+system(cd C:/Users/James/Documents/GitHub/Maxima/Solver);
+
+if N=4 then (
+4
+);
+
+if N=9 then (
+9
+);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

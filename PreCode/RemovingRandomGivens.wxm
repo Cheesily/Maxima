@@ -84,7 +84,7 @@ i:1+quotient(y-1,SqrtSize^3);
 j:1+quotient(mod(y-1,SqrtSize^3),Size);
 k:1+quotient(mod(y-1,Size),SqrtSize);
 l:1+mod(y-1,SqrtSize);
-m:Size*(i-1)+k;
+m:SqrtSize*(i-1)+k;
 n:SqrtSize*(j-1)+l;
 /* [wxMaxima: input   end   ] */
 
