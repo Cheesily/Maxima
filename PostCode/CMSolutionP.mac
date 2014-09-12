@@ -1,0 +1,14 @@
+
+/* Tests whether a Combined Matrix is a solution */
+
+CMSolutionP(CombMatrix):=block([N:length(CombMatrix[1]),n:sqrt(N),Result:true,BaseList,TranBaseList,TempList,SudokuMatrix],
+    BaseList:makelist(x,x,N),    TranBaseList:transpose(BaseList),    for i:1 thru N while Result do (        TempList:sort(row(CombMatrix,i)),        if TempList#BaseList then Result:false    ),    for i:1 thru N while Result do (        TempList:sort(column(CombMatrix,i)),        if TempList#TranBaseList then Result:false    ),
+    if Result=false then return(false),
+    load(ConvertCM2SM),
+    SudokuMatrix:ConvertCM2SM(CombMatrix),
+    for i:1 thru n while Result do (
+        for j:1 thru n while Result do (            TempList:sort(list_matrix_entries(SudokuMatrix[i,j])),            if TempList#BaseList then Result:false
+    ),
+    Result
+);
+

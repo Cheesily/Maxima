@@ -1,0 +1,15 @@
+
+/* Tests whether an object is of the form of a Combined Matrix of the size specified */
+
+CombMatrixP(Object,Size):=block([N:Size,n:sqrt(Size),Result:true],
+    if matrixp(Object)=false then return(false),
+    if matrix_size(Object)#[N,N] then return(false),
+    for i:1 thru n while Result do (
+        for j:1 thru n while Result do block([Value:Object[i,j]],
+            if not integerp(Value) then Result:false
+            else if Value<0 or Value>N then Result:false
+        )
+    ),
+    Result
+);
+

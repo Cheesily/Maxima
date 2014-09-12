@@ -1,46 +1,39 @@
 
-
-/* Tests whether a Combined Matrix has a satisfiable solution other then the one provided */
-
-TestSatisfiable(CombMatrix,CNFSolM):=block([N:length(CombMatrix[1]),Found:false,Stream],
-    load(ConvertToCNF),
-    load(stringproc),
-    CNFCombM:ConvertToCNF(CombMatrix,false),
-    Answer:"",
-
-    if N=4 then (
-        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase4x4Temp")
-    ),
-    if N=9 then (
-        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase9x9Temp")
-    ),
-    if N=16 then (
-        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase16x16Temp")
-    ),
-    if N=25 then (
-        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase25x25Temp")
-    ),
-    if N=36 then (
-        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase36x36Temp")
-    ),
-
-    Stream:opena("C:/Users/James/Documents/GitHub/Maxima/Solver/TempNxNCNF.txt"),
-    freshline(Stream),
-    printf(Stream,CNFSolM),
-    for i:1 thru length(CNFCombM) do (
-        freshline(Stream),
-        printf(Stream,CNFCombM[i])
-    ),
-    close(Stream),
-    system("C:/Users/James/Documents/GitHub/Maxima/Solver/SatSolver"),
-    stream:openr("C:/Users/James/Documents/GitHub/Maxima/Solver/Output.txt"),
-    while (Found=false) do(
-        Answer:readline(stream),
-        if Answer="s SATISFIABLE" or Answer="s UNSATISFIABLE" then (
-            Found:true
-        )
-    ),
-    close(stream),
-    Answer
+/* Tests whether a Combined Matrix has a satisfiable solution other then the one provided */TestSatisfiable(CombMatrix,CNFSolM):=block([N:length(CombMatrix[1]),Found:false,Stream],    load(ConvertToCNF),    load(stringproc),    CNFCombM:ConvertToCNF(CombMatrix,false),
+    Answer:"",
+    if N=4 then (
+        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase4x4Temp")
+    )
+    else if N=9 then (
+        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase9x9Temp")
+    )
+     else if N=16 then (
+        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase16x16Temp")
+    )
+     else if N=25 then (
+        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase25x25Temp")
+    )
+     else if N=36 then (
+        system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase36x36Temp")
+    ),
+    Stream:opena("C:/Users/James/Documents/GitHub/Maxima/Solver/TempNxNCNF.txt"),
+    freshline(Stream),
+    printf(Stream,CNFSolM),
+    for i:1 thru length(CNFCombM) do (
+        freshline(Stream),
+        printf(Stream,CNFCombM[i])
+    ),
+    close(Stream),
+    system("C:/Users/James/Documents/GitHub/Maxima/Solver/SatSolver"),
+    stream:openr("C:/Users/James/Documents/GitHub/Maxima/Solver/Output.txt"),
+    Answer:Begin,
+    while Found=false and Answer#false do(
+        Answer:readline(stream),
+        if Answer="s SATISFIABLE" or Answer="s UNSATISFIABLE" or Answer="s UNKNOWN" then (
+            Found:true
+        )
+    ),
+    close(stream),
+    Answer
 );
 

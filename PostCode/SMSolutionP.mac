@@ -1,0 +1,27 @@
+
+
+/* Tests whether a Sudoku Matrix is a solution */
+
+SMSolutionP(SudokuMatrix):=block([n:length(SudokuMatrix[1]),N:n^2,Result:true,BaseList,TranBaseList,TempList,CombMatrix],
+    BaseList:makelist(x,x,N),
+    TranBaseList:transpose(BaseList),
+    for i:1 thru n while Result do (
+        for j:1 thru n while Result do (
+            TempList:sort(list_matrix_entries(SudokuMatrix[i,j])),
+            if TempList#BaseList then Result:false
+        )
+    ),
+    if Result=false then return(false),
+    load(ConvertSMToCM),
+    CombMatrix:ConvertSMToCM(SudokuMatrix),
+    for i:1 thru N while Result do (
+        TempList:sort(row(CombMatrix,i)),
+        if TempList#BaseList then Result:false
+    ),
+    for i:1 thru N while Result do (
+        TempList:sort(column(CombMatrix,i)),
+        if TempList#TranBaseList then Result:false
+    ),
+    Result
+);
+

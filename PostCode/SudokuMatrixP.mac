@@ -1,0 +1,23 @@
+
+/* Tests whether an object is of the form of a Sudoku Matrix of the size specified */
+
+SudokuMatrixP(Object,Size):=block([N:Size,n:sqrt(Size),Result:true],
+    if matrixp(Object)=false then return(false),
+    if matrix_size(Object)#[n,n] then return(false),
+    for i:1 thru n while Result do (
+        for j:1 thru n while Result do (
+            if matrixp(Object[i,j])=false then Result:false
+            else if matrix_size(Object[i,j])#[n,n] then Return:false
+            else (
+                for k:1 thru n while Result do(
+                    for l:1 thru n while Result do block([Value:Object[i,j][k,l]],
+                        if not integerp(Value) then Result:false
+                        else if Value<0 or Value>N then Result:false
+                    )
+                )
+            )
+        )
+    ),
+    Result
+);
+
