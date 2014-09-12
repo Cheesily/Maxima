@@ -11,7 +11,7 @@ c java.version		1.8.0_20
 c os.name		Windows 7
 c os.version		6.1
 c os.arch		amd64
-c Free memory 		62473368
+c Free memory 		62472464
 c Max memory 		932184064
 c Total memory 		64487424
 c Number of processors 	2
@@ -29,19 +29,19 @@ c Listener: org.sat4j.minisat.core.VoidTracing@506e1b77
 c --- End Solver configuration ---
 c solving TempNxNCNF.txt
 c reading problem ... 
-c ... done. Wall clock time 0.022s.
+c ... done. Wall clock time 0.023s.
 c declared #vars     444
-c #constraints  465
+c #constraints  456
 c constraints type 
 c org.sat4j.minisat.constraints.cnf.OriginalBinaryClause => 384
 c org.sat4j.minisat.constraints.cnf.OriginalWLClause => 65
-c org.sat4j.minisat.constraints.cnf.UnitClause => 16
-c 465 constraints processed.
+c org.sat4j.minisat.constraints.cnf.UnitClause => 7
+c 456 constraints processed.
 c starts		: 0
 c conflicts		: 0
 c decisions		: 0
-c propagations		: 1
-c inspects		: 13
+c propagations		: 59
+c inspects		: 272
 c shortcuts		: 0
 c learnt literals	: 0
 c learnt binary clauses	: 0
@@ -54,13 +54,13 @@ c reason swapping (by a shorter reason)	: 0
 c Calls to reduceDB	: 0
 c Number of update (reduction) of LBD	: 0
 c Imported unit clauses	: 0
-c speed (assignments/second)	: 7.090020460849767E-10
+c speed (assignments/second)	: 4.182849208062896E-8
 c non guided choices	0
 c learnt constraints type 
 c constraints type 
 c org.sat4j.minisat.constraints.cnf.OriginalBinaryClause => 384
 c org.sat4j.minisat.constraints.cnf.OriginalWLClause => 65
-c org.sat4j.minisat.constraints.cnf.UnitClause => 16
-c 465 constraints processed.
+c org.sat4j.minisat.constraints.cnf.UnitClause => 7
+c 456 constraints processed.
 s UNSATISFIABLE
-c Total wall clock time (in seconds) : 0.041
+c Total wall clock time (in seconds) : 0.032
