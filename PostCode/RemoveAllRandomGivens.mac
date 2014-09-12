@@ -3,7 +3,7 @@
     LoadRemoving(),
     SeedRandom(),    ListOfRemCells:GenListRemCells(CombMatrix),    CNFSolM:ConvertToCNF(CombMatrix,true),
 
-    for i:1 thru 1 do(
+    for i:1 thru N^2 do(
         RemoveOneRandomGiven(CombMatrix,CNFSolM,ListOfRemCells)
     )
 );

@@ -1,0 +1,74 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+CombMatrix:matrix([1,0,0,4],[0,0,0,2],[2,0,4,0],[0,0,2,3]);
+CNFSolM:"-111 -122 -133 -144 -213 -224 -231 -242 -312 -323 -334 -341 -414 -421 -432 -443 0";
+N:length(CombMatrix[1]);
+Found:false;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(stringproc);
+load(ConvertToCNF);
+CNFCombM:ConvertToCNF(CombMatrix,false);
+Answer:"";
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if N=4 then (
+    system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase4x4Temp")
+)
+else if N=9 then (
+    system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase9x9Temp")
+)
+else if N=16 then (
+    system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase16x16Temp")
+)
+else if N=25 then (
+    system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase25x25Temp")
+)
+else if N=36 then (
+    system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase36x36Temp")
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+system("C:/Users/James/Documents/GitHub/Maxima/Solver/CopyBase4x4Temp");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+    Stream:opena("C:/Users/James/Documents/GitHub/Maxima/Solver/TempNxNCNF.txt");
+    freshline(Stream);
+    printf(Stream,CNFSolM);
+    for i:1 thru length(CNFCombM) do (
+        freshline(Stream),
+        printf(Stream,CNFCombM[i])
+    );
+    close(Stream);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+system("C:/Users/James/Documents/GitHub/Maxima/Solver/SatSolver");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+stream:openr("C:/Users/James/Documents/GitHub/Maxima/Solver/Output.txt");
+    Answer:Begin;
+    while Found=false and Answer#false do(
+        Answer:readline(stream),
+        if Answer="s SATISFIABLE" or Answer="s UNSATISFIABLE" or Answer="s UNKNOWN" then (
+            Found:true
+        )
+    );
+    close(stream);
+    Answer
+;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
