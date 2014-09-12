@@ -1,6 +1,7 @@
 /* Convert a Sudoku Matrix into a Combined Matrix */
 
 ConvertSM2CM(SudokuMatrix):= block([Matrix:SudokuMatrix, SudokuMatrix, n:matrix_size(SudokuMatrix)[1], Band, GroupBands],
+    load(GetBand),
     CombMatrix:GetBand(Matrix,SudokuMatrix,1),
 
     for i:2 thru n do (
